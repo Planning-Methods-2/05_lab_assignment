@@ -42,7 +42,7 @@ plot(density(b1000000))
 #---- Part 1. Learn how to apply general descriptive statistic metrics ----
 
 # Let's imagine that this is a dataset containing ALL (the population) of air quality data 
-
+library(data.table)
 air_pop<-data.table(datasets::airquality)
 
 
@@ -80,7 +80,7 @@ lines(density(air_sample_temp),col='red')
 unzip(zipfile = "05_lab/datasets/HSD_sample.csv.zip",exdir = "05_lab/datasets/")
 
 library(data.table)
-chi_hsales<-fread(input = "05_lab/datasets/HSD_sample.csv")
+chi_hsales<-fread(input = "datasets/HSD_sample.csv")
 setkey(chi_hsales,year,month)
 
 #exploring the data
@@ -99,8 +99,9 @@ library(ggplot2)
 
 chi_hsales[,.N,by=.(year)] 
 
-ggplot(data = chi_hsales)+
-  geom_bar(aes(x=factor(reorder(year,-year))))+
+library(ggplot2)
+ggplot(data = chi_hsales[,.(price=mean(price,na.rm=T)),by=.(year)])+
+  geom_line(aes(x=year,y=price))+
   coord_flip()
 
 
