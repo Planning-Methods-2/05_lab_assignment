@@ -74,10 +74,10 @@ plot(density(air_pop$Temp))
 lines(density(air_sample_temp),col='red')
 
 
-#---- Part 3. Learn how to use appropriate visualization methods ----
+#---- Part 2. Learn how to use appropriate visualization methods ----
 # Housing Sales in Chicago
 
-unzip(zipfile = "05_lab/datasets/HSD_sample.csv.zip",exdir = "05_lab/datasets/")
+#unzip(zipfile = "05_lab/datasets/HSD_sample.csv.zip",exdir = "05_lab/datasets/")
 
 library(data.table)
 chi_hsales<-fread(input = "datasets/HSD_sample.csv")
@@ -101,8 +101,7 @@ chi_hsales[,.N,by=.(year)]
 
 library(ggplot2)
 ggplot(data = chi_hsales[,.(price=mean(price,na.rm=T)),by=.(year)])+
-  geom_line(aes(x=year,y=price))+
-  coord_flip()
+  geom_line(aes(x=year,y=price))
 
 
 # Relational Plots
