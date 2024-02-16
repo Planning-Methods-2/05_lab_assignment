@@ -53,7 +53,7 @@ air_pop[,summary(Temp)]
 air_pop[,.(mean(Temp),sd(Temp))]
 
 
-hist(air_pop$Temp,freq = F,breaks = 10)
+hist(air_pop$Temp,freq = FALSE,breaks = 10)
 lines(density(air_pop$Temp))
 points(x=min(air_pop$Temp),y=0,col='red')
 points(x=max(air_pop$Temp),y=0,col='blue')
@@ -67,7 +67,7 @@ abline(v=quantile(air_pop$Temp,probs = 0.5),col='darkblue')
 #   geom_density()
 
 #Let's take a sample
-
+set.seed(12345)
 air_sample_temp<-sample(air_pop$Temp,size = 50)
 
 plot(density(air_pop$Temp))
@@ -86,12 +86,12 @@ setkey(chi_hsales,year,month)
 #exploring the data
 
 str(chi_hsales)
-
+names(chi_hsales)
 summary(chi_hsales)
 
 # Descriptive statistics table
-cols<-c("year","month","sqftl","sqftb","age","rooms","bedrooms","bathrooms","aircond")
-DescStats_t1<-chi_hsales[,sapply(X = .SD,FUN = summary),.SDcols=cols]
+
+DescStats_t1<-chi_hsales[,sapply(X = .SD,FUN = summary),.SDcols=c("year","month","sqftl","sqftb","age","rooms","bedrooms","bathrooms","aircond")]
 
 # Frequency Statistics and Plots
 #What years had more sales?
@@ -138,11 +138,14 @@ ggplot(data = chi_hsales)+
 
 # Tendency Plots
 #Plot average sales price by month and year in the whole period?
-
-mean_price<-chi_hsales[,.(mean_price=mean(price,na.rm=T)),by=.(year,month)]
-mean_price[,date:=as.Date(paste(year,month,"01",sep = "/"))]
+options(scipen = 999)
+mean_price<-chi_hsales[,.(mean_price=mean(price,na.rm=T)/1000),by=.(year,month)]
+mean_price[,date:=paste(year,month,"01",sep = "/")]
+mean_price[,date:=as.Date(date)]
 
 ggplot(data=mean_price,aes(x=date,y=mean_price))+
   geom_line()+
-  geom_smooth()
+  geom_smooth()+
+  theme_classic()+
+  theme(axis.text.x = element_text(family = "Times",angle = 90))
 
