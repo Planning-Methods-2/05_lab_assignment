@@ -1,4 +1,4 @@
-# Lab 4 Script: Spatial Data in R
+# Lab 5 Script: Spatial Data in R
 # The University of Texas at San Antonio
 # URP-5393: Urban Planning Methods II
 

@@ -92,6 +92,8 @@ summary(chi_hsales)
 # Descriptive statistics table
 
 DescStats_t1<-chi_hsales[,sapply(X = .SD,FUN = summary),.SDcols=c("year","month","sqftl","sqftb","age","rooms","bedrooms","bathrooms","aircond")]
+DescStats_t1
+
 
 # Frequency Statistics and Plots
 #What years had more sales?
